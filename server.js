@@ -1,3 +1,4 @@
+import { setupDatabase, testConnection } from './src/models/setup.js';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -5,6 +6,12 @@ import { fileURLToPath } from 'url';
 // Import MVC components
 import routes from './src/controllers/routes.js';
 import { addLocalVariables } from './src/middleware/global.js';
+
+import { startSessionCleanup } from './src/utils/session-cleanup.js';
+import session from 'express-session';
+// Start automatic session cleanup
+startSessionCleanup();
+import connectPgSimple from 'connect-pg-simple';
 
 /**
  * Server configuration
@@ -14,8 +21,14 @@ const __dirname = path.dirname(__filename);
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
 
+/**
+ * Setup Express Server
+ */
 const app = express();
 
+/**
+ * Configure Express
+ */
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
@@ -25,6 +38,38 @@ app.set('views', path.join(__dirname, 'src/views'));
  */
 app.use(addLocalVariables);
 
+// Allow Express to receive and process POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Initialize PostgreSQL session store
+const pgSession = connectPgSimple(session);
+
+// Configure session middleware
+app.use(session({
+    store: new pgSession({
+        conObject: {
+            connectionString: process.env.DB_URL
+        },
+        tableName: 'sessionfp',
+        createTableIfMissing: true
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: NODE_ENV.includes('dev') !== true,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
+
+// Start automatic session cleanup
+startSessionCleanup();
+
+/**
+ * Routes
+ */
 app.use('/', routes);
 
 /**
@@ -68,7 +113,6 @@ app.use((err, req, res, next) => {
     }
 });
 
-
 /**
  * Start WebSocket Server in Development Mode; used for live reloading
  */
@@ -95,7 +139,7 @@ if (NODE_ENV.includes('dev')) {
  * Start Server
  */
 app.listen(PORT, async () => {
-  //  await setupDatabase();
- //   await testConnection();
+    await setupDatabase();
+    await testConnection();
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
