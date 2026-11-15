@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator';
 import { findUserByEmail, verifyPassword } from '../../models/forms/login.js';
+import { emailExists, saveUser, getAllUsers, promoteUserToAdmin } from '../../models/forms/registration.js';
 import { Router } from 'express';
 
 const router = Router();
@@ -143,10 +144,31 @@ const showDashboard = (req, res) => {
     res.render('forms/login/dashboard', { title: 'Dashboard', user, sessionData });
 };
 
+// Show promoteUser form
+const showPromoteUserForm = async (req, res) => {
+        // Initialize users as empty array
+    let users = [];
+
+    try {
+        // TODO: Call getAllUsers() and assign to users variable
+        users = await getAllUsers();
+    } catch (error) {
+        // TODO: Log the error to console
+        // users remains empty array on error
+        console.error('Error occurred while fetching users:', error);
+    }
+    res.render('forms/login/users', { title: 'Promote User', users });
+};
+
 // Routes
 router.get('/', showLoginForm);
 router.post('/', loginValidation, processLogin);
+router.post('/users/promote/:email', async (req, res) => {
+    const email = req.params.email;
+    await promoteUserToAdmin(email);
+    res.redirect('/users');
+});
 
 // Export router as default, and specific functions for root-level routes
 export default router;
-export { processLogout, showDashboard };
+export { processLogout, showDashboard, showPromoteUserForm };

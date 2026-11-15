@@ -3,7 +3,7 @@ import { homePage, aboutPage, testErrorPage } from './index.js';
 import contactRoutes from './forms/contact.js';
 import registrationRoutes from './forms/registration.js';
 import loginRoutes from './forms/login.js';
-import { processLogout, showDashboard } from './forms/login.js';
+import { processLogout, showDashboard, showPromoteUserForm } from './forms/login.js';
 import { requireLogin } from '../middleware/auth.js';
 
 import { Router } from 'express';
@@ -46,6 +46,7 @@ router.use('/login', loginRoutes);
 // Authentication-related routes at root level
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
+router.get('/users', requireLogin, showPromoteUserForm);
 
 // Route to trigger a test error
 router.get('/test-error', testErrorPage);

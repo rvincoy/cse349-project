@@ -33,11 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-/**
- * Global Middleware
- */
-app.use(addLocalVariables);
-
 // Allow Express to receive and process POST data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -63,6 +58,11 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
+
+/**
+ * Global Middleware
+ */
+app.use(addLocalVariables);
 
 // Start automatic session cleanup
 startSessionCleanup();

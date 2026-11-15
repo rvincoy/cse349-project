@@ -39,7 +39,7 @@ const saveUser = async (name, email, hashedPassword) => {
  */
 const getAllUsers = async () => {
     const query = `
-        SELECT id, name, email, created_at
+        SELECT id, name, email, created_at, role
         FROM usersfp
         ORDER BY created_at DESC
     `;
@@ -47,4 +47,13 @@ const getAllUsers = async () => {
     return result.rows;
 };
 
-export { emailExists, saveUser, getAllUsers };
+const promoteUserToAdmin = async (email) => {
+    const query = `
+        UPDATE usersfp
+        SET role = 'admin'
+        WHERE email = $1
+    `;
+    await db.query(query, [email]);
+};
+
+export { emailExists, saveUser, getAllUsers, promoteUserToAdmin };
