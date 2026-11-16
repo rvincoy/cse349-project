@@ -43,6 +43,8 @@ const addLocalVariables = (req, res, next) => {
         res.locals.isLoggedIn = true;
     }
 
+    res.locals.userRole = req.session?.user?.role || 'user';
+
     // Continue to the next middleware or route handler
     next();
 };
