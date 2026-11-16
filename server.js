@@ -135,6 +135,8 @@ if (NODE_ENV.includes('dev')) {
     }
 }
 
+app.set('trust proxy', 1); // Trust first proxy for secure cookies behind a reverse proxy
+
 /**
  * Start Server
  */
