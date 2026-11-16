@@ -24,11 +24,11 @@ const emailExists = async (email) => {
  */
 const saveUser = async (name, email, hashedPassword) => {
     const query = `
-        INSERT INTO usersfp (name, email, password)
-        VALUES ($1, $2, $3)
-        RETURNING id, name, email, created_at
+        INSERT INTO usersfp (name, email, password, role)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, name, email, created_at, role
     `;
-    const result = await db.query(query, [name, email, hashedPassword]);
+    const result = await db.query(query, [name, email, hashedPassword, 'user']);
     return result.rows[0];
 };
 
@@ -47,13 +47,4 @@ const getAllUsers = async () => {
     return result.rows;
 };
 
-const promoteUserToAdmin = async (email) => {
-    const query = `
-        UPDATE usersfp
-        SET role = 'admin'
-        WHERE email = $1
-    `;
-    await db.query(query, [email]);
-};
-
-export { emailExists, saveUser, getAllUsers, promoteUserToAdmin };
+export { emailExists, saveUser, getAllUsers };

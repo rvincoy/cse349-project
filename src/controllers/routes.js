@@ -3,7 +3,8 @@ import { homePage, aboutPage, testErrorPage } from './index.js';
 import contactRoutes from './forms/contact.js';
 import registrationRoutes from './forms/registration.js';
 import loginRoutes from './forms/login.js';
-import { processLogout, showDashboard, showPromoteUserForm } from './forms/login.js';
+import { processLogout, showDashboard } from './forms/login.js';
+import usersRoutes, { showPromoteUserForm, requireAdmin } from './forms/users.js';
 import { requireLogin } from '../middleware/auth.js';
 
 import { Router } from 'express';
@@ -50,5 +51,8 @@ router.get('/users', requireLogin, showPromoteUserForm);
 
 // Route to trigger a test error
 router.get('/test-error', testErrorPage);
+
+router.get('/users', requireLogin, requireAdmin, showPromoteUserForm);
+router.use(usersRoutes);
 
 export default router;

@@ -1,11 +1,11 @@
 <%- include('../../partials/header') %>
 <main>
-    <table class="user-table">
+    <table class="user-table" style="width: 50%;">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
+                <th style="text-align: left;">Email</th>
+                <th style="text-align: left;">Role</th>
+                <th style="text-align: left;">Action</th>
             </tr>
         </thead>
 
@@ -16,14 +16,19 @@
                     <td><%= user.role %></td>
                     <td>
                         <% if (user.role !== 'admin') { %>
-                            <form action="/users/promote/<%= user.email %>"
+                            <form action="/users/promote/<%= user.id %>"
                                 method="POST">
-                                <button type="submit">
+                                <button type="submit" style="background-color: palegreen;">
                                     Promote to Admin
                                 </button>
                             </form>
                         <% } else { %>
-                            <span>Administrator</span>
+                            <form action="/users/demote/<%= user.id %>"
+                                method="POST">
+                                <button type="submit" style="background-color: yellow;">
+                                    Demote from Admin
+                                </button>
+                            </form>
                         <% } %>
                     </td>
                 </tr>

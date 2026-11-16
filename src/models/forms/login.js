@@ -13,7 +13,7 @@ const findUserByEmail = async (email) => {
     // TODO: Use $1 placeholder for email parameter
     // TODO: Add LIMIT 1 to ensure only one result
     // TODO: Execute query and return first row or null
-    const query = `SELECT id, name, email, password, created_at FROM usersfp WHERE LOWER(email) = LOWER($1) LIMIT 1`;
+    const query = `SELECT id, name, email, password, created_at, role FROM usersfp WHERE LOWER(email) = LOWER($1) LIMIT 1`;
     const values = [email];
     const result = await db.query(query, values);
     return result.rows[0] || null;
