@@ -5,6 +5,7 @@ import {
     createPriority,
     getAllPriorities
 } from '../../models/forms/priority.js';
+import {requireAdmin } from './users.js';
 
 const router = Router();
 
@@ -62,7 +63,7 @@ const handleAddPriority = async (req, res) => {
 /**
  * GET /addpriority
  */
-router.get('/', showAddPriorityForm);
+router.get('/', requireAdmin, showAddPriorityForm);
 
 /**
  * POST /addpriority

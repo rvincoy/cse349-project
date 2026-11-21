@@ -5,6 +5,7 @@ import {
     createStatus,
     getAllStatuses
 } from '../../models/forms/status.js';
+import {requireAdmin } from './users.js';
 
 const router = Router();
 
@@ -62,7 +63,7 @@ const handleAddStatus = async (req, res) => {
 /**
  * GET /addstatus
  */
-router.get('/', showAddStatusForm);
+router.get('/', requireAdmin, showAddStatusForm);
 
 /**
  * POST /addstatus

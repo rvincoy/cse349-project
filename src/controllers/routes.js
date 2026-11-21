@@ -51,7 +51,6 @@ router.use('/login', loginRoutes);
 // Authentication-related routes at root level
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
-router.get('/users', requireLogin, showPromoteUserForm);
 
 // Route to trigger a test error
 router.get('/test-error', testErrorPage);
