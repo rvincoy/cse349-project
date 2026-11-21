@@ -1,0 +1,28 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p>
+        Create a new status by filling out the form below. This will help you identify the current state of your tasks.
+    </p>
+    <% if (statuses && statuses.length > 0) { %>
+        <div class="status-responses">
+            <% statuses.forEach(status => { %>
+                <div class="response-item">
+                    <h3 class="response-status"><%= status.status %></h3>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-responses">No status submissions yet.</p>
+    <% } %>
+
+    <form method="POST" action="/addstatus" class="addstatus-form">
+        <!-- Status Name field -->
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" required placeholder="Enter status">
+        </div>
+        <button type="submit">Create Status</button>
+    </form>
+</main>
+<%- include('../../partials/footer') %>
