@@ -1,0 +1,28 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p>
+        Create a new group or meeting by filling out the form below. This will help you organize your action items by group or meeting type.
+    </p>
+    <% if (groupmeetings && groupmeetings.length > 0) { %>
+        <div class="status-responses">
+            <% groupmeetings.forEach(groupmeeting => { %>
+                <div class="response-item">
+                    <h3 class="response-status"><%= groupmeeting.groupmeeting %></h3>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-responses">No group or meeting submissions yet.</p>
+    <% } %>
+
+    <form method="POST" action="/addgroupmeeting" class="addgroupmeeting-form">
+        <!-- Group/Meeting Name field -->
+        <div class="form-group">
+            <label for="groupmeeting">Group/Meeting:</label>
+            <input type="text" id="groupmeeting" name="groupmeeting" required placeholder="Enter group or meeting name">
+        </div>
+        <button type="submit">Create Group/Meeting</button>
+    </form>
+</main>
+<%- include('../../partials/footer') %>

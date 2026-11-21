@@ -3,6 +3,7 @@ import { homePage, aboutPage, testErrorPage } from './index.js';
 import contactRoutes from './forms/contact.js';
 import priorityRoutes from './forms/priority.js';
 import statusRoutes from './forms/status.js';
+import groupMeetingRoutes from './forms/groupmeeting.js';
 import registrationRoutes from './forms/registration.js';
 import loginRoutes from './forms/login.js';
 import { processLogout, showDashboard } from './forms/login.js';
@@ -29,7 +30,7 @@ router.use('/contact', (req, res, next) => {
 });
 router.use('/addpriority', priorityRoutes);
 router.use('/addstatus', statusRoutes);
-
+router.use('/addgroupmeeting', groupMeetingRoutes);
 
 // Registration routes
 router.use('/register', registrationRoutes);
