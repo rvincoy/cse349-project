@@ -1,0 +1,28 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p>
+        Create a new priority by filling out the form below. This will help you categorize and manage your tasks effectively.
+    </p>
+    <% if (priorities && priorities.length > 0) { %>
+        <div class="priority-responses">
+            <% priorities.forEach(priority => { %>
+                <div class="response-item">
+                    <h3 class="response-priority"><%= priority.priority %></h3>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-responses">No priority submissions yet.</p>
+    <% } %>
+
+    <form method="POST" action="/addpriority" class="addpriority-form">
+        <!-- Priority Name field -->
+        <div class="form-group">
+            <label for="priority">Priority:</label>
+            <input type="text" id="priority" name="priority" required placeholder="Enter priority">
+        </div>
+        <button type="submit">Create Priority</button>
+    </form>
+</main>
+<%- include('../../partials/footer') %>

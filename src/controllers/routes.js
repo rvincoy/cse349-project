@@ -1,6 +1,7 @@
 // TODO: Add import statements for controllers and middleware
 import { homePage, aboutPage, testErrorPage } from './index.js';
 import contactRoutes from './forms/contact.js';
+import priorityRoutes from './forms/priority.js';
 import registrationRoutes from './forms/registration.js';
 import loginRoutes from './forms/login.js';
 import { processLogout, showDashboard } from './forms/login.js';
@@ -25,6 +26,7 @@ router.use('/contact', (req, res, next) => {
     res.addStyle('<link rel="stylesheet" href="/css/contact.css">');
     next();
 });
+router.use('/addpriority', priorityRoutes);
 
 
 // Registration routes
